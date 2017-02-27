@@ -572,7 +572,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <!--=======================================================================
       antcontrib.download-check
-
       Fetches ant-contrib from sourceforge if it is not already present
       ====================================================================-->
   <target name="antcontrib.download-check">
@@ -594,9 +593,42 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
   <!--=======================================================================
       antcontrib.download
-
       Fetches ant-contrib from sourceforge
       ====================================================================-->
+  <target name="antcontrib.download" unless="antcontrib.available">
+    <mkdir dir="${antcontrib.build.cache.dir}"/>
+    <get src="http://nexus.pentaho.org/content/groups/omni/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"
+         dest="${antcontrib.build.cache.dir}"
+         usetimestamp="true"/>
+  </target>
+  
+  <!--=======================================================================
+      antcontrib.download-check
+
+      Fetches ant-contrib from sourceforge if it is not already present
+      ====================================================================
+  <target name="antcontrib.download-check">
+    <condition property="antcontrib.available">
+      <and>
+        <available file="${antcontrib.build.cache.dir}"/>
+        <available classname="net.sf.antcontrib.logic.IfTask">
+          <classpath>
+            <fileset dir="${antcontrib.build.cache.dir}">
+              <include name="*.jar"/>
+            </fileset>
+          </classpath>
+        </available>
+      </and>
+    </condition>
+    <antcall target="antcontrib.download"/>
+  </target>
+-->
+
+  <!--=======================================================================
+      antcontrib.download
+
+      Fetches ant-contrib from sourceforge
+      ====================================================================
   <target name="antcontrib.download" unless="antcontrib.available">
     <mkdir dir="${subfloor.tmp.dir}"/>
     <get src="http://downloads.sourceforge.net/ant-contrib/ant-contrib-1.0b3-bin.zip"
@@ -613,7 +645,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       </fileset>
     </copy>
   </target>
-
+-->
 
   <!--=======================================================================
       init
